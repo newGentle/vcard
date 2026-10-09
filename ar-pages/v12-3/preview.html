@@ -1,0 +1,18 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#071b2a"><title>AA V12.3 — тест углов</title><link rel="stylesheet" href="v12-3.css"><script defer src="corners.js"></script><script defer src="preview.js"></script></head>
+<body class="preview"><main>
+  <p style="font-size:11px;letter-spacing:2px;color:#49e6e4;font-weight:900">AA / DETECTED-CORNER PROJECTION</p>
+  <h1>Привязка к 4 углам AA</h1><p>Тест без камеры. Поверни и наклони маркер — карточка обязана совпадать с его четырьмя углами, не превращаясь в полосу. Фон карточки прозрачный.</p>
+  <div class="preview-stage" id="preview-stage">
+    <img src="aa-marker.png" class="preview-marker" id="sim-marker" alt="Маркер AA">
+    <div id="hologram" class="tracked"><div id="holo-card">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <span class="hololabel">AA / DIGITAL IDENTITY</span><img class="brand" src="assets/aa-ribbon-transparent.png" alt="">
+      <div class="portrait"><img src="https://newgentle.github.io/photo.webp" alt="" referrerpolicy="no-referrer"><span>LIVE PROFILE</span></div>
+      <div class="titleblock"><h1>AKBAR<br>ABDULLAEV</h1><p>HEAD OF IT DEPARTMENT</p></div>
+      <div class="byline">HEALTHCARE TECHNOLOGY <i>· AI</i></div>
+    </div></div>
+  </div>
+  <div class="preview-controls"><label>Вращение: <output id="roll-value">0°</output><input id="roll" type="range" min="-180" max="180" value="0" step="5"></label><label>Наклон: <output id="tilt-value">0°</output><input id="tilt" type="range" min="-62" max="62" value="0" step="2"></label><label>Размер: <output id="zoom-value">100%</output><input id="zoom" type="range" min="60" max="150" value="100" step="5"></label></div>
+  <div class="link-row"><a href="ar.html?v=123">Запустить AR</a><a href="ar-hd.html?v=123">HD камера</a><a href="print.html">Печать AA</a><a href="../ar.html?v=11">Вернуться к V11</a></div>
+  <p id="preview-report" style="font-size:12px"></p>
+</main></body></html>

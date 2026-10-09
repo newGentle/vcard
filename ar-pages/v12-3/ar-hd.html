@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru" class="ar">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+ <meta name="theme-color" content="#041824"><title>AA WebAR V12.3 | Direct marker corners</title>
+ <link rel="stylesheet" href="v12-3.css?v=123">
+ <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+ <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.8/aframe/build/aframe-ar.js"></script>
+ <script>if(window.AFRAME&&!window.AFRAME.systems.arjs)document.write('<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.8/aframe/build/aframe-ar.js"><'+'/script>');</script>
+ <script defer src="corners.js?v=123"></script><script defer src="v12-3.js?v=123"></script>
+</head>
+<body>
+ <a-scene id="scene" embedded vr-mode-ui="enabled:false" device-orientation-permission-ui="enabled:false"
+    renderer="alpha:true;antialias:true;precision:medium"
+    arjs="sourceType:webcam;detectionMode:mono;debugUIEnabled:false;patternRatio:0.7;sourceWidth:960;sourceHeight:720;">
+   <a-marker id="aa-marker" type="pattern" url="pattern-aa-v11.patt" emitevents="true"
+     smooth="true" smooth-count="5" smooth-tolerance="0.01" smooth-threshold="2"></a-marker>
+   <a-entity camera></a-entity>
+ </a-scene>
+ <div id="hologram" aria-hidden="true">
+  <div id="holo-card">
+   <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+   <span class="hololabel">AA / DIGITAL IDENTITY</span>
+   <img class="brand" src="assets/aa-ribbon-transparent.png" alt="">
+   <div class="portrait"><img id="portrait" src="https://newgentle.github.io/photo.webp" alt="" referrerpolicy="no-referrer"/><span>LIVE PROFILE</span></div>
+   <div class="titleblock"><h1>AKBAR<br>ABDULLAEV</h1><p>HEAD OF IT DEPARTMENT</p></div>
+   <div class="byline">HEALTHCARE TECHNOLOGY <i>· AI</i></div>
+  </div>
+ </div>
+ <svg id="raw-outline" aria-hidden="true" preserveAspectRatio="none">
+  <polygon id="raw-polygon" points=""></polygon>
+  <circle class="corner-dot" r="6"></circle><circle class="corner-dot" r="6"></circle><circle class="corner-dot" r="6"></circle><circle class="corner-dot" r="6"></circle>
+  <text id="marker-top-label" x="0" y="0">ВЕРХ AA</text>
+ </svg>
+ <main id="hud">
+   <header class="hud-top"><strong><i class="live"></i>AA <b>CORNERS</b> V12.3 HD</strong>
+     <nav class="top-links"><a href="ar.html?v=123">STD</a><a href="../index.html">Закрыть ×</a></nav></header>
+   <footer class="hud-bottom">
+     <div id="status" class="status" role="status">Разрешите доступ к камере и наведите на AA-маркер.</div>
+     <div class="controls"><button type="button" id="orientation">Ориентация: AA</button><button type="button" id="show-corners">Показать углы</button><button type="button" id="video-fit">Видео: COVER</button></div>
+     <div class="contact-actions"><button class="primary" type="button" id="save-contact">Сохранить контакт</button><a href="../cv.html">Полное CV</a><a href="https://t.me/Newgentle" target="_blank" rel="noopener">Telegram</a><button type="button" id="share-profile">Поделиться</button></div>
+     <div class="links"><a href="print.html">AA-маркер</a><a href="preview.html">Предпросмотр</a><a href="../ar-hiro.html?v=8">HIRO (резерв)</a><button type="button" id="restart">Повторить</button></div>
+     <details id="diagnostics"><summary>Диагностика распознанных углов</summary><pre id="diagnostic-text">Ожидание данных ARToolkit...</pre></details>
+   </footer>
+ </main>
+</body></html>

@@ -1,1 +1,28 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>WebAR V6 | Preview</title><link rel="stylesheet" href="style.css?v=6"></head><body class="page"><main class="wrap"><div class="brand">VISITCARD / V6 / DESIGN PREVIEW</div><h1>AR-визитка</h1><p class="lead">Демонстрационный вид виртуальной 3D-карточки. В камере она привязывается к HIRO-маркеру.</p><img src="ar-card.png?v=6" alt="AR card design" style="display:block;width:100%;height:auto;filter:drop-shadow(0 22px 34px #50dfb82b)"><div class="stack" style="margin-top:24px"><a class="action primary" href="ar.html?v=6">✦ Запустить камеру</a><a class="action" href="print.html?v=6">Распечатать маркер</a><a class="action" href="index.html?v=6">К цифровой визитке</a></div><p class="note">Контакты пока демонстрационные. Публичная версия не содержит личных телефонов или рабочих секретов.</p></main></body></html>
+<!doctype html>
+<html lang="ru"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WebAR V7 — дизайн виртуальной визитки</title>
+<link rel="stylesheet" href="style.css?v=7">
+<style>
+.preview-stage{position:relative;min-height:440px;display:grid;place-items:center;padding:32px 12px;background:radial-gradient(ellipse at center,#2b706b,#10353e 70%,#07191f);border:1px solid #467a71;border-radius:23px;overflow:hidden}
+.preview-marker{position:absolute;bottom:15px;width:180px;height:130px;border:7px solid #eeffff;background:#0b141b;transform:perspective(560px) rotateX(63deg);opacity:.8;box-shadow:0 0 0 9px #255760}
+.preview-anchored{position:relative;z-index:1;width:min(340px,100%);filter:drop-shadow(0 20px 40px #0007)}
+.preview-note{text-align:center;font-size:12px;color:#a7dfda;margin-top:12px}
+</style>
+</head><body class="page"><main class="wrap">
+<div class="brand">VISITCARD / WEBAR V7</div>
+<h1 style="font-size:29px;margin:10px 0">Новая интерактивная AR-визитка</h1>
+<p class="lead">Это предварительный вид HTML-панели, которая закрепляется по координатам HIRO-маркера. Кнопки нажимаются непосредственно на карточке.</p>
+<div class="preview-stage"><div class="preview-marker" aria-hidden="true"></div><div class="preview-anchored">
+<article class="floating-card">
+  <div class="card-topline"><span class="card-id">NFC / DIGITAL ID</span><span class="card-live"><span></span> WEBAR</span></div>
+  <div class="card-person"><div class="card-monogram" aria-hidden="true">A</div><div class="card-person-info"><div class="card-eyebrow">ПЕРСОНАЛЬНАЯ ВИЗИТКА</div><h1>AKBAR</h1><p>Head of IT · Digital Solutions</p></div></div>
+  <div class="card-rule"></div>
+  <p class="card-tagline">Контакты одним касанием. Виртуальная визитка прямо над картой.</p>
+  <div class="card-controls"><button class="card-main-button" onclick="alert('Демонстрация: в AR сохранится тестовый vCard')">✦ Сохранить контакт</button><a class="card-secondary" href="index.html?v=7">Профиль ↗</a><button class="card-secondary" onclick="alert('В AR откроется меню Поделиться')">Поделиться ↗</button></div>
+  <div class="card-edge" aria-hidden="true"><span></span><span></span><span></span></div>
+</article>
+</div></div><p class="preview-note">Демонстрация · Контакты вымышлены/не заполнены</p>
+<div class="stack"><a class="action primary" href="ar.html?v=7">✦ Открыть AR-камеру</a><div class="grid"><a class="action" href="print.html?v=7">HIRO-маркер</a><a class="action" href="index.html?v=7">Моя визитка</a></div></div>
+<p class="note">В AR используется настоящий видеопоток и распознавание HIRO. HTML-панель остаётся чёткой на телефонах Android независимо от формата PNG-текстуры.</p>
+</main></body></html>

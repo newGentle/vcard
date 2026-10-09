@@ -1,4 +1,4 @@
-/* AA brand overlay overrides; V8 AR tracking and video geometry are intentionally preserved. */
+/* AA brand overlay overrides; V8-proven AR tracking and video geometry are intentionally preserved. */
 .aa-monogram{font-size:33px;letter-spacing:-.1em;background:linear-gradient(145deg,#13545c,#072a34)}
 .aa-summary{max-width:420px;margin:0 auto 14px;line-height:1.65;color:#c4f2e6;font-size:14px}
 .aa-feature{margin:26px 0;padding:20px;border:1px solid #39766e;border-radius:20px;background:#0a3036}
@@ -22,3 +22,27 @@ html.ar-page #ar-overlay.is-visible ~ #hud .hud-actions{display:none!important}
 .cv-layout p,.cv-layout li{font-size:14px;line-height:1.65;color:#23444b}.cv-layout ul{padding-left:20px}.cv-layout li{margin:6px 0}.cv-layout article{margin:15px 0}.cv-layout h3{font-size:15px;margin:0;color:#12323b}.cv-layout h3 small{display:inline;font-size:12px;font-weight:500;color:#67817e}.cv-org{font-size:12px!important;color:#188072!important;margin:1px 0}
 .cv-layout article p{margin:5px 0}.cv-skills p{margin:7px 0}.cv-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}.cv-cta a{background:#0b605a;color:#fff;border-radius:10px;text-decoration:none;padding:12px 17px;font-weight:750}
 @media(max-width:700px){.cv-layout{margin:0;border:0;border-radius:0}.cv-bar{padding:12px 15px}}
+
+/* V10 - AA designed with official SAYANA geometry and palette, but is a personal monogram. */
+:root{--aa-teal:#0EA5A6;--aa-peach:#E9A692;--aa-ink:#061C24}
+body.page{background:radial-gradient(ellipse at 65% -5%,#0a5b61 0%,#07252d 38%,#061C24 78%)}
+.aa-profile .brand{display:flex;justify-content:space-between;gap:15px;color:#a5eee4}
+.brand-v10{font-size:9px;letter-spacing:.09em;color:#E9A692}
+.aa-profile .monogram.aa-monogram{width:148px;height:126px;background:#082933;border:1px solid rgba(14,165,166,.45);box-shadow:0 14px 55px #0EA5A61c;display:grid;place-items:center;padding:3px;border-radius:27px}
+.aa-profile .aa-monogram img{display:block;width:100%;max-width:135px;max-height:115px;object-fit:contain}
+.aa-profile .action.primary{background:#0EA5A6;border-color:#0EA5A6;color:#fff}
+.aa-profile .pill{border-color:#B27870;color:#F5D2C4}
+.aa-profile .aa-feature{border-left:3px solid #E9A692}
+html.ar-page .floating-card{background:linear-gradient(150deg,#f8fffd 0%,#e2f8f1 58%,#ffe9dc 145%);border:1px solid #90c9c1;box-shadow:0 8px 0 #0a595a44,0 23px 59px #02171ddd,0 0 0 4px #0EA5A62b}
+html.ar-page .card-monogram{padding:0;background:transparent;box-shadow:none;width:61px;height:61px;border-radius:14px;overflow:hidden}
+html.ar-page .card-monogram img{width:100%;height:100%;display:block;object-fit:contain}
+html.ar-page .card-person-info h1{color:#09303b}
+html.ar-page .card-topline, html.ar-page .card-eyebrow{color:#087c7c}
+html.ar-page .card-main-button{background:#0EA5A6;border-color:#0EA5A6;color:white}
+html.ar-page .card-secondary{border-color:#b2c8bf}
+html.ar-page .card-live{border-color:#54b6aa;background:#dcf8ed;color:#0b5b5a}
+html.ar-page .card-edge span:last-child{background:#E9A692}
+html.ar-page .hud-actions .save-action{background:#0EA5A6;color:white}
+html.ar-page .hud-title small{color:#E9A692}
+.aa-cv-page .cv-kicker,.aa-cv-page .cv-layout h2{color:#0d8f8c}
+@media(max-width:380px){html.ar-page .card-monogram{width:51px;height:51px}}

@@ -1,9 +1,9 @@
 'use strict';
-// WebAR V9 AA — reliable AR.js marker tracking + readable, touchable 2.5D DOM profile.
+// WebAR V11 AA — reliable AR.js marker tracking + readable, touchable 2.5D DOM profile.
 // No texture upload is needed. The existing AR.js camera stream remains the only capture source.
 (() => {
   const scene = document.getElementById('scene');
-  const marker = document.getElementById('hiro-marker');
+  const marker = document.getElementById('hiro-marker'); // stable ID, now tracking the AA pattern
   const status = document.getElementById('status');
   const output = document.getElementById('diag-output');
   const actions = document.getElementById('actions');
@@ -55,7 +55,7 @@
   }
   function report() {
     const lines = [
-      `Build: V9 / orientation + tracking quality`,
+      `Build: V11 / orientation + tracking quality`,
       `Tracking profile: ${highResolution ? 'HD 960x720 request' : 'STD 640x480 request'}`,
       `Card manual rotation: ${cardRotation} degrees`,
       `Card fit scale: ${Math.round(cardScale * 100)}%`,
@@ -247,7 +247,7 @@
   requestAnimationFrame(reposition);
 
   // All buttons are real HTML controls, not a clickable image texture.
-  const profileUrl = new URL('index.html?v=9', location.href).href;
+  const profileUrl = new URL('index.html?v=11', location.href).href;
   function saveContact() {
     const a = document.createElement('a');
     a.href = 'Akbar_Abdullaev.vcf';
@@ -258,7 +258,7 @@
   }
   async function shareProfile() {
     try {
-      if (navigator.share) await navigator.share({title:'VisitCard AR Demo', url:profileUrl});
+      if (navigator.share) await navigator.share({title:'Akbar Abdullaev | Digital Identity', url:profileUrl});
       else if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(profileUrl);
         setStatus('Ссылка на профиль скопирована');

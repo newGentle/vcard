@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#061c24">
-  <title>WebAR V9 · AA HD | NFC VisitCard</title>
-  <link rel="stylesheet" href="style.css?v=9">
+  <title>WebAR V11 · AA HD | NFC VisitCard</title>
+  <link rel="stylesheet" href="style.css?v=11">
   <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.8/aframe/build/aframe-ar.js"></script>
   <script>
@@ -13,16 +13,17 @@
       document.write('<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.8/aframe/build/aframe-ar.js"><' + '/script>');
     }
   </script>
-  <script defer src="ar-aa-ui.js?v=9"></script>
-  <link rel="stylesheet" href="aa-brand.css?v=9">
+  <script defer src="ar-aa-ui.js?v=11"></script>
+  <link rel="stylesheet" href="aa-brand.css?v=11">
+  <link rel="stylesheet" href="v11.css?v=11">
 </head>
 <body>
   <!-- Keep the known-good AR.js tracking camera. The profile itself is rendered as crisp DOM. -->
   <a-scene id="scene" embedded vr-mode-ui="enabled: false"
     device-orientation-permission-ui="enabled: false"
     renderer="alpha: true; antialias: true; precision: medium"
-    arjs="sourceType: webcam; detectionMode: mono; debugUIEnabled: false; patternRatio: 0.5; sourceWidth: 960; sourceHeight: 720; canvasWidth: 960; canvasHeight: 720;">
-    <a-marker id="hiro-marker" type="pattern" url="pattern-aa.patt" emitevents="true"
+    arjs="sourceType: webcam; detectionMode: mono; debugUIEnabled: false; patternRatio: 0.7; sourceWidth: 960; sourceHeight: 720; canvasWidth: 960; canvasHeight: 720;">
+    <a-marker id="hiro-marker" type="pattern" url="pattern-aa-v11.patt" emitevents="true"
       smooth="true" smooth-count="5" smooth-tolerance="0.01" smooth-threshold="2">
       <a-ring position="0 0.012 0" rotation="-90 0 0" radius-inner="0.675"
         radius-outer="0.69" material="shader: flat; color: #77ffe5; transparent: true; opacity: 0.78; side: double"></a-ring>
@@ -30,35 +31,24 @@
     <a-entity camera></a-entity>
   </a-scene>
 
-  <!-- Anchored 2.5D overlay: tracks AA in 3D, but stays front-facing and touchable. -->
-  <div id="ar-overlay" class="ar-overlay" hidden aria-label="Виртуальная визитка">
-    <article class="floating-card">
-      <div class="card-topline"><span class="card-id">AA / DIGITAL ID</span><span class="card-live"><span></span> WEBAR</span></div>
-      <div class="card-person">
-        <div class="card-monogram" aria-hidden="true">AA</div>
-        <div class="card-person-info"><div class="card-eyebrow">IT LEADERSHIP / HEALTHCARE</div>
-          <h1>AKBAR ABDULLAEV</h1>
-          <p>Head of IT Department</p>
-        </div>
-      </div>
-      <div class="card-rule"></div>
-      <p class="card-tagline">20+ years in IT · Infrastructure · Software · Automation</p>
-      <div class="card-controls">
-        <button class="card-main-button save-action" type="button">✦ Сохранить контакт</button>
-        <a class="card-secondary" href="cv.html">Full CV <span aria-hidden="true">↗</span></a>
-        <a class="card-secondary" href="https://t.me/Newgentle" target="_blank" rel="noopener">Telegram <span aria-hidden="true">↗</span></a>
-      </div>
-      <div class="card-edge" aria-hidden="true"><span></span><span></span><span></span></div>
-    </article>
-  </div>
+  <!-- V11: DOM profile follows AA pose; screenshot-friendly, accessible and interactive. -->
+  <div id="ar-overlay" class="ar-overlay" hidden aria-label="Интерактивная AR-визитка">
+  <article class="floating-card v11-floating">
+    <div class="card-topline"><span class="card-id">AA / DIGITAL IDENTITY</span><span class="card-live"><span></span> LIVE WEBAR</span></div>
+    <div class="v11-hero-row"><div class="v11-person-info"><div class="card-eyebrow">HEALTHCARE IT · LEADERSHIP</div><h1>AKBAR<br>ABDULLAEV</h1><p class="v11-title">HEAD OF IT DEPARTMENT</p><p class="v11-sub">Infrastructure · Software<br>AI & Automation</p></div>
+      <div class="v11-photo-frame"><img src="https://newgentle.github.io/photo.webp" alt="Akbar Abdullaev — official portfolio photo" loading="eager" onerror="this.style.display='none';this.parentElement.classList.add('photo-unavailable')"><span class="photo-monogram">AA</span></div></div>
+    <div class="v11-ribbon-row"><img src="assets/aa-ribbon-logo.png" alt="AA personal monogram"><span>20+ YEARS IN IT <small>·</small> DIGITAL SOLUTIONS</span></div>
+    <div class="card-controls v11-actions"><button class="card-main-button save-action" type="button">✦ Сохранить контакт</button><a class="card-secondary" href="cv.html">Полное CV ↗</a><a class="card-secondary" href="https://t.me/Newgentle" target="_blank" rel="noopener">Telegram ↗</a><a class="card-secondary" href="https://github.com/newGentle" target="_blank" rel="noopener">GitHub ↗</a><button class="card-secondary share-action" type="button">Поделиться ↗</button></div>
+  </article>
+</div>
 
   <div id="hud" aria-live="polite">
     <header class="hud-top">
-      <span class="hud-title">&#10022; LIVE WEBAR <small>V9 / AA  HD</small></span>
+      <span class="hud-title">&#10022; LIVE WEBAR <small>V11 / AA  HD</small></span>
       <nav class="hud-tools" aria-label="AR camera controls">
-        <a id="quality-switch" class="quality-switch" href="ar.html?v=9" title="Switch to proven stable tracking">STD</a>
+        <a id="quality-switch" class="quality-switch" href="ar.html?v=11" title="Switch to proven stable tracking">STD</a>
         <button type="button" id="rotate-card" class="rotate-view" aria-label="Rotate virtual card 90 degrees" aria-pressed="false" title="Rotate virtual card">&#8635; 90&#176;</button>
-        <a class="exit" href="index.html?v=9">&#x0417;&#x0430;&#x043a;&#x0440;&#x044b;&#x0442;&#x044c; &times;</a>
+        <a class="exit" href="index.html?v=11">&#x0417;&#x0430;&#x043a;&#x0440;&#x044b;&#x0442;&#x044c; &times;</a>
       </nav>
 
     </header>
@@ -70,9 +60,9 @@
         <a href="https://t.me/Newgentle" target="_blank" rel="noopener">Telegram</a>
       </div>
       <div class="understatus">
-        <a href="camera-test.html?v=9">Тест камеры</a>
-        <a href="print-large.html?v=9">AA XL</a>
-        <a href="../ar.html?v=8" title="Return to proven HIRO tracker">HIRO V8</a>
+        <a href="camera-test.html?v=11">Тест камеры</a>
+        <a href="print-large.html?v=11">AA XL</a>
+        <a href="ar-hiro.html?v=8" title="Return to proven HIRO tracker">HIRO (резерв)</a>
         <button type="button" id="retry-ar">Перезапустить AR</button>
       </div>
       <details id="diagnostics">

@@ -2,25 +2,25 @@
 <html lang="ru"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#061a20"><title>AR VisitCard · Digital Profile</title>
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 </head><body class="page"><main class="wrap">
-<div class="brand">VISITCARD / WEBAR LAB · V7</div>
+<div class="brand">VISITCARD / WEBAR LAB · V8</div>
 <section class="hero" aria-label="Цифровая визитка">
 <div class="monogram" aria-hidden="true">AR</div>
 <div class="pill">DIGITAL IDENTITY · DEMO</div>
 <h1>Akbar</h1><p class="lead">Head of IT · Interactive Business Card</p>
 </section>
 <div class="stack">
-<a class="action primary" href="ar.html?v=7">✦ Открыть AR-камеру</a>
+<a class="action primary" href="ar.html?v=8">✦ Открыть AR-камеру</a>
 <div class="grid">
-<a class="action" href="print.html?v=7">▦ AR-маркер</a>
-<a class="action" href="design-preview.html?v=7">◈ AR-дизайн</a>
+<a class="action" href="print.html?v=8">▦ AR-маркер</a>
+<a class="action" href="design-preview.html?v=8">◈ AR-дизайн</a>
 </div>
-<a class="action" href="camera-test.html?v=7">◉ Проверить камеру</a><a class="action" id="vcard" download="visitcard-demo.vcf" href="#">＋ Сохранить контакт</a>
+<a class="action" href="ar-hd.html?v=8">HD &#183; tracking test</a><a class="action" href="print-large.html?v=8">HIRO XL &#183; 90mm</a><a class="action" href="camera-test.html?v=8">◉ Проверить камеру</a><a class="action" id="vcard" download="visitcard-demo.vcf" href="#">＋ Сохранить контакт</a>
 </div>
 <p class="note">Для настоящей дополненной реальности наведите камеру на распечатанный HIRO-маркер. На телефоне рекомендуем открывать сайт напрямую в Chrome, а не во встроенном браузере Telegram или других приложений.</p>
-<div class="info">Если камера не работает, откройте <a href="camera-test.html?v=7">Тест камеры</a>. Он проверяет живое видео напрямую, без A-Frame и AR.js. Так мы сможем точно отличить проблему доступа к камере от ошибки 3D-движка.</div>
-<div class="foot">Тестовая публикация · Без реальных контактных данных · V7</div>
+<div class="info">Если камера не работает, откройте <a href="camera-test.html?v=8">Тест камеры</a>. Он проверяет живое видео напрямую, без A-Frame и AR.js. Так мы сможем точно отличить проблему доступа к камере от ошибки 3D-движка.</div>
+<div class="foot">Тестовая публикация · Без реальных контактных данных · V8</div>
 </main>
 <script>
 (()=>{const card=['BEGIN:VCARD','VERSION:3.0','FN:Akbar','TITLE:Head of IT','NOTE:Public demonstration only','END:VCARD',''].join('\r\n');const url=URL.createObjectURL(new Blob([card],{type:'text/vcard;charset=utf-8'}));document.getElementById('vcard').href=url;window.addEventListener('pagehide',()=>URL.revokeObjectURL(url),{once:true});})();

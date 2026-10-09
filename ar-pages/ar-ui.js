@@ -1,5 +1,5 @@
 'use strict';
-// WebAR V7 — reliable AR.js marker tracking + readable, touchable 2.5D DOM profile.
+// WebAR V8 — reliable AR.js marker tracking + readable, touchable 2.5D DOM profile.
 // No texture upload is needed. The existing AR.js camera stream remains the only capture source.
 (() => {
   const scene = document.getElementById('scene');
@@ -9,6 +9,28 @@
   const actions = document.getElementById('actions');
   const overlay = document.getElementById('ar-overlay');
   const retry = document.getElementById('retry-ar');
+  const rotateButton = document.getElementById('rotate-card');
+  const highResolution = location.pathname.endsWith('/ar-hd.html');
+  let cardRotation = 0; // screen-facing by default; never inherit HIRO roll
+  let cardScale = 1;
+  function setCardRotation(degrees) {
+    cardRotation = degrees;
+    document.documentElement.classList.toggle('manual-sideways', degrees !== 0);
+    overlay?.style.setProperty('--card-rotation', degrees + 'deg');
+    if (rotateButton) {
+      rotateButton.setAttribute('aria-pressed', String(degrees !== 0));
+      rotateButton.setAttribute('title', 'Card rotation: ' + degrees + ' degrees');
+    }
+    lastX = NaN; lastY = NaN;
+  }
+  rotateButton?.addEventListener('click', () => {
+    setCardRotation(cardRotation === 0 ? 90 : cardRotation === 90 ? 270 : 0);
+    report();
+  });
+  // Android handles native rotation if auto-rotate is enabled. Do not also rotate the DOM card.
+  const landscapeQuery = window.matchMedia('(orientation: landscape)');
+  landscapeQuery.addEventListener?.('change', () => { setCardRotation(0); report(); });
+
   const footer = document.querySelector('.hud-bottom');
   const header = document.querySelector('.hud-top');
   if (!scene || !marker || !status || !output || !actions || !overlay) return;
@@ -33,7 +55,10 @@
   }
   function report() {
     const lines = [
-      `Build: V7 / interactive DOM overlay`,
+      `Build: V8 / orientation + tracking quality`,
+      `Tracking profile: ${highResolution ? 'HD 960x720 request' : 'STD 640x480 request'}`,
+      `Card manual rotation: ${cardRotation} degrees`,
+      `Card fit scale: ${Math.round(cardScale * 100)}%`,
       `Secure HTTPS: ${isSecureContext}`,
       `Camera API: ${Boolean(navigator.mediaDevices?.getUserMedia)}`,
       `A-Frame loaded: ${Boolean(window.AFRAME)}`,
@@ -151,18 +176,38 @@
     const physicalWidth = Math.hypot(right.x - left.x, right.y - left.y);
     state.markerWidth = physicalWidth;
     state.projectedCenter = `${round(center.x)},${round(center.y)}`;
-    const cardWidth = Math.min(innerWidth - 24, Math.max(258, physicalWidth * 1.35));
+    // The card remains upright to the screen, never rigidly rotated with HIRO.
+    // Landscape layouts are compact; manual 90-degree mode handles Android auto-rotate OFF.
+    const isLandscape = innerWidth > innerHeight && innerHeight < 650;
+    const isSideways = cardRotation !== 0;
+    const cardWidth = isSideways
+      ? Math.min(540, Math.max(280, innerHeight - 115))
+      : isLandscape
+        ? Math.min(innerWidth - 24, 520, Math.max(320, physicalWidth * 1.35))
+        : Math.min(innerWidth - 24, Math.max(258, physicalWidth * 1.35));
     overlay.style.setProperty('--card-width', `${round(cardWidth)}px`);
-    const cardHeight = overlay.getBoundingClientRect().height || 260;
-    const topEdge = (header?.getBoundingClientRect().bottom || 64) + 10;
-    const bottomEdge = (footer?.getBoundingClientRect().top || innerHeight - 175) - 8;
-    const minY = topEdge + cardHeight / 2;
-    const maxY = bottomEdge - cardHeight / 2;
-    const targetX = Math.max(cardWidth / 2 + 10, Math.min(innerWidth - cardWidth / 2 - 10, center.x));
+    // offsetWidth/Height are the untransformed DOM dimensions. Rotation swaps the bounding box.
+    const rawW = overlay.offsetWidth || cardWidth;
+    const rawH = overlay.offsetHeight || 260;
+    const displayedW = isSideways ? rawH : rawW;
+    const displayedH = isSideways ? rawW : rawH;
+    const topEdge = (header?.getBoundingClientRect().bottom || 64) + 9;
+    const bottomEdge = (footer?.getBoundingClientRect().top || innerHeight - 175) - 9;
+    const availableHeight = Math.max(80, bottomEdge - topEdge);
+    cardScale = Math.min(1, (innerWidth - 24) / displayedW,
+      availableHeight / displayedH);
+    if (!Number.isFinite(cardScale)) cardScale = 1;
+    cardScale = Math.max(0.35, cardScale);
+    overlay.style.setProperty('--card-scale', cardScale.toFixed(3));
+    const fitW = displayedW * cardScale;
+    const fitH = displayedH * cardScale;
+    const minY = topEdge + fitH / 2;
+    const maxY = bottomEdge - fitH / 2;
+    const targetX = Math.max(fitW / 2 + 10, Math.min(innerWidth - fitW / 2 - 10, center.x));
     const intendedY = center.y - Math.min(38, physicalWidth * .16);
     const targetY = maxY >= minY
       ? Math.max(minY, Math.min(maxY, intendedY))
-      : Math.max(cardHeight / 2 + 10, Math.min(innerHeight - cardHeight / 2 - 10, intendedY));
+      : Math.max(fitH / 2 + 10, Math.min(innerHeight - fitH / 2 - 10, intendedY));
     // Mild smoothing, without detaching the visible overlay from the marker.
     lastX = Number.isFinite(lastX) ? lastX + (targetX - lastX) * 0.35 : targetX;
     lastY = Number.isFinite(lastY) ? lastY + (targetY - lastY) * 0.35 : targetY;
@@ -202,7 +247,7 @@
   requestAnimationFrame(reposition);
 
   // All buttons are real HTML controls, not a clickable image texture.
-  const profileUrl = new URL('index.html?v=7', location.href).href;
+  const profileUrl = new URL('index.html?v=8', location.href).href;
   function saveContact() {
     const vcf = ['BEGIN:VCARD', 'VERSION:3.0', 'FN:Akbar', 'TITLE:Head of IT',
       'NOTE:WebAR demo - replace with approved details', 'END:VCARD', ''].join('\r\n');

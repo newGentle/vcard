@@ -44,3 +44,58 @@ html.ar-page #scene .a-canvas{width:100%!important;height:100%!important;display
 /* Existing independent camera test page */
 .camera-page{background:#06171b;min-height:100dvh}.camera-preview{position:relative;background:#071018;border:1px solid #2e625d;border-radius:16px;overflow:hidden;aspect-ratio:3/4;display:grid;place-items:center}.camera-preview video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#071018}.camera-preview .placeholder{color:#99c9bc;font-size:13px;z-index:1;pointer-events:none}.camera-preview.active .placeholder{display:none}.camera-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:14px 0}.camera-actions button{border:1px solid #42877a;background:#143a3b;color:#eafff9;padding:13px;border-radius:12px;font-weight:700}.camera-actions button.primary{background:#9af6d8;color:#0a2923}.test-status{margin:12px 0;padding:13px;border-radius:11px;background:#102f35;border:1px solid #30695e;font-size:13px;line-height:1.5;overflow-wrap:anywhere}
 @media(max-width:350px){.floating-card{padding:13px}.card-person{gap:8px}.card-monogram{width:46px;height:46px;line-height:46px}.card-person h1{font-size:26px}.hud-actions{gap:5px}.hud-actions button,.hud-actions a{font-size:11px}}
+
+/* V8: screen-facing card and explicit rotation for phones with auto-rotate off. */
+html.ar-page .ar-overlay {
+  transform:translate(-50%,-50%) rotate(var(--card-rotation,0deg)) scale(var(--card-scale,.999));
+  transition:opacity 180ms ease, transform 180ms ease;
+}
+html.ar-page .ar-overlay.is-visible {
+  transform:translate(-50%,-50%) rotate(var(--card-rotation,0deg)) scale(var(--card-scale,1));
+}
+.hud-tools{display:flex;align-items:center;gap:7px;flex:none}
+.hud-tools .quality-switch,.hud-tools .rotate-view{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:37px;min-width:41px;padding:8px 9px;
+  border:1px solid #568e80;background:#113a40d9;color:#e5fff6;
+  border-radius:11px;text-decoration:none;font-size:12px;font-weight:800;
+}
+.hud-tools .quality-switch{background:#2c655d;color:#eafff5}
+.hud-tools .rotate-view[aria-pressed="true"]{background:#8df6d5;color:#0b3735}
+.hud-tools .exit{white-space:nowrap;min-height:37px;display:inline-flex;align-items:center}
+html.ar-page.manual-sideways .ar-overlay{max-width:none}
+/* Compact horizontal layout for a rotated physical phone OR a landscape viewport. */
+@media (orientation:landscape) and (max-height:650px) {
+  .floating-card{border-radius:15px;padding:8px 12px 8px;box-shadow:0 10px 30px #031720df}
+  .card-topline{font-size:8px}
+  .card-live{padding:3px 7px}
+  .card-person{margin-top:7px;gap:10px}
+  .card-monogram{width:40px;height:40px;line-height:40px;font-size:26px;border-radius:11px}
+  .card-person h1{font-size:25px;margin:1px 0 0}
+  .card-person p{font-size:11px}
+  .card-eyebrow{font-size:8px}
+  .card-rule{margin:7px 0}
+  .card-tagline,.card-edge{display:none}
+  .card-controls{grid-template-columns:1.15fr 1fr 1fr;gap:6px;margin-top:6px}
+  .card-controls>*{min-height:34px;padding:5px 5px;font-size:11px}
+  .card-controls>.card-main-button{grid-column:auto;font-size:11px}
+  .hud-bottom{gap:4px;padding:4px 10px max(5px,env(safe-area-inset-bottom))}
+  .status{padding:5px 9px;font-size:10px}
+  .hud-actions{gap:5px}.hud-actions a,.hud-actions button{min-height:33px;padding:4px 4px;font-size:11px}
+  .understatus{font-size:10px;gap:9px}
+  #diagnostics:not([open]){display:none}
+  .hud-top{padding:5px 10px 7px}
+  .hud-title{font-size:11px}
+}
+html.ar-page.manual-sideways .floating-card{border-radius:15px;padding:8px 12px 8px}
+html.ar-page.manual-sideways .card-person{margin-top:6px;gap:9px}
+html.ar-page.manual-sideways .card-monogram{width:40px;height:40px;line-height:40px;font-size:25px;border-radius:11px}
+html.ar-page.manual-sideways .card-person h1{font-size:25px;margin:1px 0 0}
+html.ar-page.manual-sideways .card-person p{font-size:11px}
+html.ar-page.manual-sideways .card-rule{margin:7px 0}
+html.ar-page.manual-sideways .card-tagline,
+html.ar-page.manual-sideways .card-edge{display:none}
+html.ar-page.manual-sideways .card-controls{grid-template-columns:1.15fr 1fr 1fr;gap:6px;margin-top:6px}
+html.ar-page.manual-sideways .card-controls>*{min-height:34px;font-size:11px;padding:5px}
+html.ar-page.manual-sideways .card-controls>.card-main-button{grid-column:auto;font-size:11px}
+@media(max-width:365px){.hud-tools{gap:3px}.hud-tools .quality-switch,.hud-tools .rotate-view{padding:6px;min-width:34px;font-size:11px}.hud-tools .exit{font-size:11px;padding:8px}}

@@ -120,3 +120,14 @@ html.ar-page .hud-actions button,html.ar-page .hud-actions a{font:inherit;font-s
 html.ar-page .hud-actions a{background:#16404a;color:#e7fff6;border:1px solid #5c978a}
 html.ar-page .hud-actions .share-action{background:#225b5b;color:#edfff7;border:1px solid #5c978a}
 @media(max-width:340px){html.ar-page .hud-actions{grid-template-columns:1fr 1fr}html.ar-page .hud-actions .share-action{grid-column:span 2}}
+
+/* V6: guard projected 3D touch targets against collisions and label wrapping. */
+html.ar-page #marker-hotspots .ar-hotspot {
+  min-width: 90px;
+  max-width: 120px;
+  white-space: nowrap;
+  font-size: 12px;
+  line-height: 1.2;
+  padding: 10px 11px;
+  border-radius: 12px;
+}

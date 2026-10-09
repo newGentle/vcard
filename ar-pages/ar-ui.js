@@ -1,5 +1,5 @@
 'use strict';
-// NFC VisitCard WebAR V5: AR.js video mirroring and truthful diagnostics.
+// NFC VisitCard WebAR V6: AR.js video mirroring and truthful diagnostics.
 (() => {
   const scene = document.getElementById('scene');
   const marker = document.getElementById('hiro-marker');
@@ -10,6 +10,9 @@
   const hotspots = document.getElementById('marker-hotspots');
   const profilePlane = document.getElementById('profile-card');
   const cardTexture = document.getElementById('card-image');
+  const fallbackTitle = document.getElementById('texture-fallback');
+  const fallbackSub = document.getElementById('texture-fallback-sub');
+  let textureReady = false;
   if (!scene || !marker || !status || !output || !actions) return;
 
   const state = {
@@ -47,7 +50,9 @@
       `Viewport: ${window.innerWidth}x${window.innerHeight}`,
       `Body CSS: ${dimensions(document.body)}`,
       `Marker HIRO: ${state.marker}`,
-      `Card texture: ${cardTexture?.naturalWidth ? cardTexture.naturalWidth + 'x' + cardTexture.naturalHeight : 'not loaded'}`,
+      `Card image URL: ${cardTexture?.getAttribute('src') || 'missing'}`,
+      `Card image: ${cardTexture?.naturalWidth ? cardTexture.naturalWidth + 'x' + cardTexture.naturalHeight : 'not loaded'}`,
+      `3D texture configured: ${textureReady}`,
       `Last fault: ${state.fault || 'none'}`,
       `Errors: ${state.errors.join(' | ') || 'none'}`
     ];
@@ -130,7 +135,27 @@
     }
     report();
   }
-  cardTexture?.addEventListener('error', () => addError('3D card image missing: assets/ar-card.png'));
+  // Do not set an image texture until the PNG has fully loaded. If it fails,
+  // the solid 3D plane and visible 3D text remain usable, not a black rectangle.
+  function applyCardTexture() {
+    if (textureReady || !profilePlane || !cardTexture?.naturalWidth) return;
+    const apply = () => {
+      if (textureReady) return;
+      profilePlane.setAttribute('material', 'shader: flat; src: #card-image; transparent: true; side: double; alphaTest: 0.06');
+      fallbackTitle?.setAttribute('visible', 'false');
+      fallbackSub?.setAttribute('visible', 'false');
+      textureReady = true;
+      report();
+    };
+    if (profilePlane.hasLoaded) apply();
+    else profilePlane.addEventListener('loaded', apply, {once: true});
+  }
+  cardTexture?.addEventListener('load', applyCardTexture);
+  cardTexture?.addEventListener('error', () => {
+    addError('AR card PNG not found. Expected ar-pages/ar-card.png');
+    if (state.marker) setStatus('Маркер распознан, но PNG недоступен. Показываем запасной 3D-профиль.');
+  });
+  if (cardTexture?.complete && cardTexture.naturalWidth > 0) applyCardTexture();
   window.addEventListener('error', e => {
     const src = e.target?.src;
     if (src && (String(src).includes('aframe') || String(src).includes('AR.js'))) {
@@ -148,7 +173,9 @@
     state.marker = true;
     actions.classList.add('visible');
     if (hotspots) hotspots.hidden = false;
-    setStatus('✓ HIRO распознан. Виртуальная визитка привязана к маркеру.');
+    setStatus(textureReady
+      ? '✓ HIRO распознан. Виртуальная визитка привязана к маркеру.'
+      : '✓ HIRO распознан. Загрузка дизайна или запасной 3D-профиль.');
     report();
   });
   marker.addEventListener('markerLost', () => {
@@ -159,7 +186,7 @@
     report();
   });
   // Real working HTML actions, not fake clickable geometry in the 3D texture.
-  const profileUrl = new URL('index.html?v=5', location.href).href;
+  const profileUrl = new URL('index.html?v=6', location.href).href;
   function saveDemoContact() {
     const vcard = ['BEGIN:VCARD','VERSION:3.0','FN:Akbar','TITLE:Head of IT',
       'NOTE:Public WebAR demo, replace with approved contact details','END:VCARD',''].join('\r\n');
@@ -178,37 +205,57 @@
   for (const btn of document.querySelectorAll('.save-action,#hot-save')) btn.addEventListener('click',saveDemoContact);
   for (const btn of document.querySelectorAll('.share-action,#hot-share')) btn.addEventListener('click',shareProfile);
 
-  // Project three button centers from marker-local 3D coordinates to the phone viewport.
-  // Only provide touch targets when the fiducial is tracked and the plane is on screen.
+  // The user observed 3 projected labels overlapping when the card appeared small.
+  // Show on-card DOM controls ONLY if every button can fit without collision.
+  // Otherwise keep the real, accessible three-button HUD at the bottom.
   const hotspotCoords = [
-    ['hot-save', -0.54, -0.375],
-    ['hot-profile', 0, -0.375],
-    ['hot-share', 0.54, -0.375]
+    ['hot-save', -0.54, -0.40],
+    ['hot-profile', 0, -0.40],
+    ['hot-share', 0.54, -0.40]
   ];
+  const hotspotNodes = hotspotCoords.map(([id]) => document.getElementById(id));
+  function hideHotspots() {
+    for (const element of hotspotNodes) if (element) element.style.display = 'none';
+  }
   let lastProjection = 0;
   function projectHotspots(now) {
     requestAnimationFrame(projectHotspots);
-    if (!state.marker || !hotspots || !profilePlane?.object3D || !scene.camera || !window.THREE) return;
-    if (now-lastProjection < 80) return;
+    if (!state.marker || !hotspots || !profilePlane?.object3D || !scene.camera || !window.THREE) {
+      hideHotspots();
+      return;
+    }
+    if (now - lastProjection < 100) return;
     lastProjection = now;
-    const rect=(scene.canvas || scene).getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
+    const rect = (scene.canvas || scene).getBoundingClientRect();
+    if (!rect.width || !rect.height) { hideHotspots(); return; }
     profilePlane.object3D.updateWorldMatrix(true, false);
     scene.camera.updateMatrixWorld();
-    for (const [id,x,y] of hotspotCoords) {
-      const element=document.getElementById(id);
-      if (!element) continue;
-      const projected=new THREE.Vector3(x,y,0.01);
-      profilePlane.object3D.localToWorld(projected);
-      projected.project(scene.camera);
-      const left=rect.left+(projected.x+1)*rect.width/2;
-      const top=rect.top+(1-projected.y)*rect.height/2;
-      const visible=projected.z>-1 && projected.z<1 && left>35 && left<innerWidth-35 && top>90 && top<innerHeight-170;
-      element.style.display=visible?'block':'none';
-      if (visible) {element.style.left=left+'px';element.style.top=top+'px';}
-    }
+    const coords = hotspotCoords.map(([, x, y]) => {
+      const pt = new THREE.Vector3(x, y, 0.03);
+      profilePlane.object3D.localToWorld(pt);
+      pt.project(scene.camera);
+      return {
+        x: rect.left + (pt.x + 1) * rect.width / 2,
+        y: rect.top + (1 - pt.y) * rect.height / 2,
+        z: pt.z
+      };
+    });
+    // Minimum ~115 px separation prevents overlapping the Russian labels.
+    const separation = Math.min(coords[1].x - coords[0].x, coords[2].x - coords[1].x);
+    const safe = separation >= 115 && coords.every(p => Number.isFinite(p.x) &&
+      Number.isFinite(p.y) && p.z > -1 && p.z < 1 &&
+      p.x > 58 && p.x < innerWidth - 58 && p.y > 115 && p.y < innerHeight - 220);
+    if (!safe) { hideHotspots(); return; }
+    coords.forEach((p, i) => {
+      const element = hotspotNodes[i];
+      if (!element) return;
+      element.style.left = p.x + 'px';
+      element.style.top = p.y + 'px';
+      element.style.display = 'block';
+    });
   }
   requestAnimationFrame(projectHotspots);
+
 
   if (retry) retry.addEventListener('click', () => window.location.reload());
   if (!isSecureContext || !navigator.mediaDevices?.getUserMedia) {

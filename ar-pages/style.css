@@ -14,3 +14,98 @@ a{color:inherit}button,a.button{font:inherit;cursor:pointer}.page{min-height:100
 #diagnostics{max-width:440px;width:100%;margin:0 auto;padding:8px 12px;border-radius:11px;background:#102a30df;color:#d4eee6;font-size:11px}#diagnostics summary{cursor:pointer;font-weight:650}#diag-output{white-space:pre-wrap;word-break:break-word;line-height:1.5;margin:8px 0 0;max-height:110px;overflow:auto}
 .camera-page{background:#06171b;min-height:100dvh}.camera-preview{position:relative;background:#071018;border:1px solid #2e625d;border-radius:16px;overflow:hidden;aspect-ratio:3/4;display:grid;place-items:center}.camera-preview video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#071018}.camera-preview .placeholder{color:#99c9bc;font-size:13px;z-index:1;pointer-events:none}.camera-preview.active .placeholder{display:none}.camera-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:14px 0}.camera-actions button{border:1px solid #42877a;background:#143a3b;color:#eafff9;padding:13px;border-radius:12px;font-weight:700}.camera-actions button.primary{background:#9af6d8;color:#0a2923}.test-status{margin:12px 0;padding:13px;border-radius:11px;background:#102f35;border:1px solid #30695e;font-size:13px;line-height:1.5;overflow-wrap:anywhere}
 @media(max-width:345px){.grid{grid-template-columns:1fr}.hud-actions{grid-template-columns:1fr}}
+
+/* V4: AR.js can write inline width/height/margins on BODY from its video aspect ratio.
+   The mobile viewport and HUD must never inherit those AR.js calculations. */
+html.ar-page, html.ar-page body {
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  min-width:0!important;
+  max-width:100vw!important;
+  height:100vh!important;
+  height:100dvh!important;
+  min-height:0!important;
+  max-height:100dvh!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+  touch-action:manipulation;
+}
+/* Match any actual AR.js source video, not only videos with certain attributes. */
+html.ar-page body video:not(#camera-mirror) {
+  position:fixed!important;
+  left:0!important;
+  top:0!important;
+  right:auto!important;
+  bottom:auto!important;
+  margin:0!important;
+  width:100vw!important;
+  height:100vh!important;
+  height:100dvh!important;
+  max-width:none!important;
+  object-fit:cover!important;
+  transform:none!important;
+  display:block!important;
+  visibility:visible!important;
+  z-index:1!important;
+}
+/* Clone/share the SAME MediaStream from AR.js. AR.js still analyzes its native video. */
+html.ar-page #camera-mirror {
+  position:fixed!important;
+  inset:0!important;
+  display:block!important;
+  width:100vw!important;
+  height:100vh!important;
+  height:100dvh!important;
+  object-fit:cover!important;
+  z-index:2!important;
+  pointer-events:none!important;
+  margin:0!important;
+  background:#030b10;
+}
+html.ar-page.mirror-active body video:not(#camera-mirror) {
+  opacity:0!important;
+}
+html.ar-page #scene {
+  position:fixed!important;
+  top:0!important;
+  left:0!important;
+  right:0!important;
+  bottom:0!important;
+  width:100vw!important;
+  height:100vh!important;
+  height:100dvh!important;
+  min-width:0!important;
+  max-width:100vw!important;
+  margin:0!important;
+  background:transparent!important;
+  z-index:3!important;
+}
+html.ar-page #scene .a-canvas {
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  background:transparent!important;
+}
+html.ar-page #hud {
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100vh!important;
+  height:100dvh!important;
+  box-sizing:border-box;
+  font-size:14px;
+  z-index:30!important;
+}
+html.ar-page .hud-top { flex-shrink:0; }
+html.ar-page .hud-bottom { width:100%; max-width:100vw; flex-shrink:0; }
+html.ar-page #retry-ar {
+  border:0;
+  background:none;
+  color:#b3d5d0;
+  font-size:11px;
+  text-decoration:underline;
+  padding:4px 3px;
+  cursor:pointer;
+}

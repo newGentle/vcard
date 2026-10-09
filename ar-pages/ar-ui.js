@@ -1,5 +1,5 @@
 'use strict';
-// NFC VisitCard WebAR V4: AR.js video mirroring and truthful diagnostics.
+// NFC VisitCard WebAR V5: AR.js video mirroring and truthful diagnostics.
 (() => {
   const scene = document.getElementById('scene');
   const marker = document.getElementById('hiro-marker');
@@ -7,6 +7,9 @@
   const output = document.getElementById('diag-output');
   const actions = document.getElementById('actions');
   const retry = document.getElementById('retry-ar');
+  const hotspots = document.getElementById('marker-hotspots');
+  const profilePlane = document.getElementById('profile-card');
+  const cardTexture = document.getElementById('card-image');
   if (!scene || !marker || !status || !output || !actions) return;
 
   const state = {
@@ -44,6 +47,7 @@
       `Viewport: ${window.innerWidth}x${window.innerHeight}`,
       `Body CSS: ${dimensions(document.body)}`,
       `Marker HIRO: ${state.marker}`,
+      `Card texture: ${cardTexture?.naturalWidth ? cardTexture.naturalWidth + 'x' + cardTexture.naturalHeight : 'not loaded'}`,
       `Last fault: ${state.fault || 'none'}`,
       `Errors: ${state.errors.join(' | ') || 'none'}`
     ];
@@ -126,6 +130,7 @@
     }
     report();
   }
+  cardTexture?.addEventListener('error', () => addError('3D card image missing: assets/ar-card.png'));
   window.addEventListener('error', e => {
     const src = e.target?.src;
     if (src && (String(src).includes('aframe') || String(src).includes('AR.js'))) {
@@ -142,15 +147,69 @@
   marker.addEventListener('markerFound', () => {
     state.marker = true;
     actions.classList.add('visible');
+    if (hotspots) hotspots.hidden = false;
     setStatus('✓ HIRO распознан. Виртуальная визитка привязана к маркеру.');
     report();
   });
   marker.addEventListener('markerLost', () => {
     state.marker = false;
     actions.classList.remove('visible');
+    if (hotspots) hotspots.hidden = true;
     if (!state.fault) setStatus('Маркер потерян. Наведите камеру на HIRO.');
     report();
   });
+  // Real working HTML actions, not fake clickable geometry in the 3D texture.
+  const profileUrl = new URL('index.html?v=5', location.href).href;
+  function saveDemoContact() {
+    const vcard = ['BEGIN:VCARD','VERSION:3.0','FN:Akbar','TITLE:Head of IT',
+      'NOTE:Public WebAR demo, replace with approved contact details','END:VCARD',''].join('\r\n');
+    const blobUrl = URL.createObjectURL(new Blob([vcard], {type:'text/vcard;charset=utf-8'}));
+    const a = document.createElement('a');a.href=blobUrl;a.download='visitcard-demo.vcf';
+    document.body.appendChild(a);a.click();a.remove();
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 30000);
+  }
+  async function shareProfile() {
+    try {
+      if (navigator.share) await navigator.share({title:'AR VisitCard Demo',url:profileUrl});
+      else if (navigator.clipboard?.writeText) {await navigator.clipboard.writeText(profileUrl);setStatus('Ссылка на визитку скопирована');}
+      else {window.prompt('Скопируйте ссылку:',profileUrl);}
+    } catch(err) {if (err.name !== 'AbortError') addError('Share: '+(err.message || err));}
+  }
+  for (const btn of document.querySelectorAll('.save-action,#hot-save')) btn.addEventListener('click',saveDemoContact);
+  for (const btn of document.querySelectorAll('.share-action,#hot-share')) btn.addEventListener('click',shareProfile);
+
+  // Project three button centers from marker-local 3D coordinates to the phone viewport.
+  // Only provide touch targets when the fiducial is tracked and the plane is on screen.
+  const hotspotCoords = [
+    ['hot-save', -0.54, -0.375],
+    ['hot-profile', 0, -0.375],
+    ['hot-share', 0.54, -0.375]
+  ];
+  let lastProjection = 0;
+  function projectHotspots(now) {
+    requestAnimationFrame(projectHotspots);
+    if (!state.marker || !hotspots || !profilePlane?.object3D || !scene.camera || !window.THREE) return;
+    if (now-lastProjection < 80) return;
+    lastProjection = now;
+    const rect=(scene.canvas || scene).getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    profilePlane.object3D.updateWorldMatrix(true, false);
+    scene.camera.updateMatrixWorld();
+    for (const [id,x,y] of hotspotCoords) {
+      const element=document.getElementById(id);
+      if (!element) continue;
+      const projected=new THREE.Vector3(x,y,0.01);
+      profilePlane.object3D.localToWorld(projected);
+      projected.project(scene.camera);
+      const left=rect.left+(projected.x+1)*rect.width/2;
+      const top=rect.top+(1-projected.y)*rect.height/2;
+      const visible=projected.z>-1 && projected.z<1 && left>35 && left<innerWidth-35 && top>90 && top<innerHeight-170;
+      element.style.display=visible?'block':'none';
+      if (visible) {element.style.left=left+'px';element.style.top=top+'px';}
+    }
+  }
+  requestAnimationFrame(projectHotspots);
+
   if (retry) retry.addEventListener('click', () => window.location.reload());
   if (!isSecureContext || !navigator.mediaDevices?.getUserMedia) {
     fault('Нужны HTTPS и поддержка камеры в браузере.');

@@ -109,3 +109,14 @@ html.ar-page #retry-ar {
   padding:4px 3px;
   cursor:pointer;
 }
+
+/* V5 marker-anchored touch targets: DOM buttons follow projected 3D positions. */
+#marker-hotspots{position:fixed;inset:0;width:100vw;height:100dvh;z-index:22;pointer-events:none;overflow:hidden}
+#marker-hotspots[hidden]{display:none!important}
+#marker-hotspots .ar-hotspot{display:none;position:absolute;transform:translate(-50%,-50%);z-index:1;pointer-events:auto;text-decoration:none;border:1px solid #a0ffe0;background:#0c554be8;color:#f2fff9;padding:7px 9px;border-radius:11px;font-size:clamp(10px,3vw,13px);font-weight:800;min-width:74px;min-height:34px;text-align:center;box-shadow:0 4px 25px #0008;backdrop-filter:blur(6px);touch-action:manipulation}
+#marker-hotspots .ar-hotspot:focus-visible{outline:3px solid #fff;outline-offset:3px}
+html.ar-page .hud-actions{grid-template-columns:repeat(3,minmax(0,1fr))}
+html.ar-page .hud-actions button,html.ar-page .hud-actions a{font:inherit;font-size:clamp(11px,2.8vw,13px);font-weight:780;border-radius:12px;padding:13px 5px;min-width:0;background:#86f0cb;color:#092823;border:0;text-align:center;text-decoration:none;cursor:pointer}
+html.ar-page .hud-actions a{background:#16404a;color:#e7fff6;border:1px solid #5c978a}
+html.ar-page .hud-actions .share-action{background:#225b5b;color:#edfff7;border:1px solid #5c978a}
+@media(max-width:340px){html.ar-page .hud-actions{grid-template-columns:1fr 1fr}html.ar-page .hud-actions .share-action{grid-column:span 2}}

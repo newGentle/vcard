@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AA V12.1 | Perspective preview</title>
+<link rel="stylesheet" href="v12-1.css"><link rel="stylesheet" href="preview.css">
+<script src="projection.js" defer></script><script src="preview.js" defer></script></head>
+<body class="preview-body">
+<header class="preview-nav"><a href="index.html">&larr; AA Digital ID</a><strong>V12.1 <em>PERSPECTIVE LAB</em></strong></header>
+<main class="preview-main"><div class="preview-intro"><small>6DoF MARKER-LOCKED VISUALIZATION</small>
+<h1>Transparent by design.<br><span>Anchored to reality.</span></h1>
+<p>Turn and tilt the simulated marker. The transparent photo, typography and AA ribbon follow all four physical corners with independent elevation.</p></div>
+<div id="preview-stage">
+  <img id="sim-marker" src="aa-marker.png" alt="Printed AA marker">
+  
+<div id="hologram" aria-hidden="true">
+  <svg id="depth-lines" aria-hidden="true" preserveAspectRatio="none">
+    <line></line><line></line><line></line><line></line>
+  </svg>
+  <div class="projected-plane plane-floor" data-height="0.006">
+    <i class="reticle-corner tl"></i><i class="reticle-corner tr"></i><i class="reticle-corner bl"></i><i class="reticle-corner br"></i>
+    <i class="floor-beam"></i><i class="floor-beam bottom"></i><i class="floor-dot a"></i><i class="floor-dot b"></i>
+  </div>
+  <div class="projected-plane plane-accent" data-height="0.065"><i class="glass-hairline"></i></div>
+  <div class="projected-plane layer-heading" data-height="0.12">
+    <div class="kicker">AA / DIGITAL IDENTITY</div>
+    <div class="eyebrow">HEALTHCARE TECHNOLOGY</div>
+    <div class="full-name">AKBAR<br>ABDULLAEV</div>
+    <div class="job">HEAD OF IT DEPARTMENT</div>
+    <div class="descriptor">Infrastructure &middot; Software &middot; AI</div>
+  </div>
+  <div class="projected-plane layer-photo" data-height="0.19">
+    <div class="photo-ring">
+      <img id="github-photo" src="https://newgentle.github.io/photo.webp" alt="" referrerpolicy="no-referrer">
+      <div class="photo-placeholder">AA</div>
+    </div>
+  </div>
+  <div class="projected-plane layer-logo" data-height="0.235">
+    <img class="aa-ribbon" src="assets/aa-ribbon-transparent.png" alt="">
+  </div>
+  <div class="projected-plane layer-top" data-height="0.28">
+    <span class="tech-halo"></span>
+    <div class="tech-metric"><b>20+</b> YEARS IN IT <em>AI &amp; AUTOMATION</em></div>
+  </div>
+</div>
+</div>
+<section class="controls"><label>Rotate marker <b id="roll-value">0 degrees</b><input id="roll" type="range" min="-90" max="90" step="1" value="0"></label>
+<label>Tilt marker <b id="tilt-value">18 degrees</b><input id="tilt" type="range" min="-65" max="65" step="1" value="18"></label>
+<label>Distance / zoom <b id="zoom-value">1.25x</b><input id="zoom" type="range" min="65" max="150" value="125"></label>
+<div class="preview-buttons"><a class="prime" href="ar.html?v=121">Open camera</a><a href="print.html">Show marker</a></div></section>
+<p class="note">This simulator previews the same homography algorithm. Physical accuracy and camera registration must be checked on Android.</p>
+</main></body></html>

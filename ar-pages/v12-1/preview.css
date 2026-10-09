@@ -1,0 +1,14 @@
+:root{color-scheme:dark}*{box-sizing:border-box}
+.preview-body{margin:0;background:radial-gradient(ellipse at 50% 0,#0c4756,#071a2a 48%,#04101c);color:#edffff;font-family:system-ui,-apple-system,'Segoe UI',Arial;overflow-x:hidden}
+.preview-nav{margin:0 auto;max-width:900px;padding:19px 17px;display:flex;justify-content:space-between;gap:15px;font-size:11px;align-items:center}.preview-nav a{color:#81e6eb;text-decoration:none}.preview-nav strong{letter-spacing:2px}.preview-nav em{font-style:normal;color:#f8b19a}
+.preview-main{max-width:850px;margin:auto;padding:16px}.preview-intro{text-align:center;max-width:620px;margin:auto}.preview-intro small{letter-spacing:3px;color:#6debeb;font-weight:850;font-size:10px}.preview-intro h1{font-size:clamp(25px,6vw,42px);line-height:1.12;letter-spacing:-1.2px;margin:16px 0}.preview-intro h1 span{color:#a3f0e9}.preview-intro p{color:#b5d8df;line-height:1.6;font-size:13px}
+#preview-stage{position:relative;width:100%;height:520px;overflow:hidden;isolation:isolate;margin:4px auto 0;background:radial-gradient(ellipse at center,#16536666,transparent 50%);border-radius:23px}
+#sim-marker{position:absolute;left:0;top:0;width:512px;height:512px;transform-origin:0 0;opacity:.85;filter:saturate(.9);will-change:transform}
+#preview-stage #hologram{position:absolute;inset:0;width:100%;height:100%;z-index:10;pointer-events:none;visibility:visible!important}
+#preview-stage .projected-plane{position:absolute}
+.controls{margin:5px auto 0;max-width:660px;background:linear-gradient(135deg,#0a2d3d,#071d2d);border:1px solid #275a6a;border-radius:18px;padding:21px 23px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.controls label{font-size:11px;color:#a9d5dc;display:grid;gap:7px;font-weight:700}.controls b{color:#f6ffff;font-weight:900}.controls input{width:100%;accent-color:#21cdd5}
+.preview-buttons{grid-column:1/-1;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.preview-buttons a{display:inline-flex;min-height:41px;padding:9px 19px;align-items:center;border-radius:12px;text-decoration:none;font-weight:800;font-size:12px;background:#0c4353;border:1px solid #246e80;color:#e9ffff}.preview-buttons a.prime{background:linear-gradient(95deg,#2adbe4,#51e8c5);color:#07293a;border:0}
+.note{max-width:660px;margin:15px auto 26px;font-size:11px;color:#8dbac3;line-height:1.6}
+@media(max-width:570px){#preview-stage{height:450px}.controls{grid-template-columns:1fr;gap:9px;padding:17px}.controls label{gap:3px}.preview-intro p{margin-bottom:2px}}
+@media(max-width:360px){#preview-stage{height:350px}.controls{padding:13px}}

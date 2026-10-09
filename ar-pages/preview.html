@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AA V12 — 3D-perspective preview</title><link rel="stylesheet" href="site.css"></head>
+<body class="preview-page">
+<header class="site-header"><a class="brand" href="index.html"><img src="assets/aa-ribbon-transparent.png" alt="AA"> AA / V12</a><a href="ar.html?v=12">LIVE AR ↗</a></header>
+<main class="site-wrap preview-content">
+  <p class="eyebrow">MODEL INSPECTION / DOES NOT ACCESS CAMERA</p><h1>Проверка перспективы и прозрачности</h1>
+  <p class="subtle">Поворачивай макет ползунками. В настоящем AR углы и масштаб задаёт физический AA-маркер. Здесь показана только имитация 3D-геометрии.</p>
+  <div class="stage">
+    <div id="model" class="model">
+      <div class="layer plate"><img src="assets/frame.png" alt="Прозрачный контур"></div>
+      <div class="layer sparks"><img src="assets/particles.png" alt=""></div>
+      <div class="layer photograph"><img src="https://newgentle.github.io/photo.webp" alt="Оригинальное фото Akbar Abdullaev"></div>
+      <div class="layer photo-frame"><img src="assets/portrait-frame.png" alt=""></div>
+      <div class="layer text"><img src="assets/copy.png" alt="Akbar Abdullaev. Head of IT"></div>
+      <div class="layer logo"><img src="assets/aa-ribbon-transparent.png" alt="AA logo"></div>
+    </div>
+  </div>
+  <section class="controls"><label>Наклон <output id="tilt-label">42°</output><input id="tilt" type="range" min="-70" max="70" value="42"></label>
+    <label>Вращение <output id="roll-label">-20°</output><input id="roll" type="range" min="-180" max="180" value="-20"></label>
+    <label>Поворот Y <output id="yaw-label">-16°</output><input id="yaw" type="range" min="-70" max="70" value="-16"></label>
+    <button id="reset" type="button" class="btn">Сбросить</button><a class="btn primary" href="ar.html?v=12">Запустить камеру</a></section>
+  <p class="note">В режиме камеры используется настоящая 6DoF-поза маркера (повороты по трём осям и расстояние до камеры), а не этот CSS-макет. Кнопки остаются в нижней панели.</p>
+</main>
+<script>
+const el=document.getElementById('model');const controls=['tilt','roll','yaw'];
+function update(){let a={};for(const n of controls){a[n]=+document.getElementById(n).value;document.getElementById(n+'-label').textContent=a[n]+'°';}el.style.transform=`rotateX(${a.tilt}deg) rotateY(${a.yaw}deg) rotateZ(${a.roll}deg)`;}
+for(const n of controls)document.getElementById(n).addEventListener('input',update);
+document.getElementById('reset').addEventListener('click',()=>{document.getElementById('tilt').value=42;document.getElementById('roll').value=-20;document.getElementById('yaw').value=-16;update();});update();
+</script></body></html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" class="ar">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+ <meta name="theme-color" content="#031a29"><title>AA WebAR V12.2 HD | Transparent Perspective</title>
+ <link rel="stylesheet" href="v12-2.css?v=122">
+ <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+ <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.8/aframe/build/aframe-ar.js"></script>
+ <script>if(window.AFRAME&&!window.AFRAME.systems.arjs)document.write('<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.8/aframe/build/aframe-ar.js"><'+'/script>');</script>
+ <script defer src="projection.js?v=122"></script>
+ <script defer src="v12-2.js?v=122"></script>
+</head>
+<body>
+ <a-scene id="scene" embedded vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false"
+   renderer="alpha: true; antialias: true; precision: medium"
+   arjs="sourceType: webcam; detectionMode: mono; debugUIEnabled: false; patternRatio: 0.7; sourceWidth: 960; sourceHeight: 720;">
+   <a-marker id="aa-marker" type="pattern" url="pattern-aa-v11.patt" emitevents="true"
+     smooth="true" smooth-count="5" smooth-tolerance="0.01" smooth-threshold="2"></a-marker>
+   <a-entity camera></a-entity>
+ </a-scene>
+ 
+<div id="hologram" aria-hidden="true">
+  <svg id="depth-lines" aria-hidden="true" preserveAspectRatio="none">
+    <line></line><line></line><line></line><line></line>
+  </svg>
+  <div class="projected-plane plane-floor" data-height="0.006">
+    <i class="reticle-corner tl"></i><i class="reticle-corner tr"></i><i class="reticle-corner bl"></i><i class="reticle-corner br"></i>
+    <i class="floor-beam"></i><i class="floor-beam bottom"></i><i class="floor-dot a"></i><i class="floor-dot b"></i>
+  </div>
+  <div class="projected-plane plane-accent" data-height="0.065"><i class="glass-hairline"></i></div>
+  <div class="projected-plane layer-heading" data-height="0.12">
+    <div class="kicker">AA / DIGITAL IDENTITY</div>
+    <div class="eyebrow">HEALTHCARE TECHNOLOGY</div>
+    <div class="full-name">AKBAR<br>ABDULLAEV</div>
+    <div class="job">HEAD OF IT DEPARTMENT</div>
+    <div class="descriptor">Infrastructure &middot; Software &middot; AI</div>
+  </div>
+  <div class="projected-plane layer-photo" data-height="0.19">
+    <div class="photo-ring">
+      <img id="github-photo" src="https://newgentle.github.io/photo.webp" alt="" referrerpolicy="no-referrer">
+      <div class="photo-placeholder">AA</div>
+    </div>
+  </div>
+  <div class="projected-plane layer-logo" data-height="0.235">
+    <img class="aa-ribbon" src="assets/aa-ribbon-transparent.png" alt="">
+  </div>
+  <div class="projected-plane layer-top" data-height="0.28">
+    <span class="tech-halo"></span>
+    <div class="tech-metric"><b>20+</b> YEARS IN IT <em>AI &amp; AUTOMATION</em></div>
+  </div>
+</div>
+ <main id="hud"><header class="hud-top">
+   <span class="title"><i class="alive"></i> AA <b>GEOMETRY</b> <small>V12.2 HD</small></span>
+   <div class="top-actions"><a href="ar.html?v=122">STD</a><a href="index.html">Close &times;</a></div>
+ </header><footer class="hud-bottom">
+   <div id="status" class="status" role="status">Enable rear camera, then aim at the AA marker.</div>
+   <div class="geo-controls"><span id="plane-info">AUTO marker orientation</span><button type="button" id="plane-mode">Plane AUTO</button><button type="button" id="rotate-model">Rotate 0°</button><button type="button" id="camera-fit">Fit COVER</button></div>
+  <div class="contact-actions">
+     <button class="primary" id="save-contact" type="button">Save Contact</button>
+     <a href="../cv.html">Full CV</a>
+     <a href="https://t.me/Newgentle" target="_blank" rel="noopener">Telegram</a>
+     <button id="share-profile" type="button">Share</button>
+   </div>
+   <nav class="links"><a href="print.html">AA Marker</a><a href="preview.html">Rotate preview</a>
+      <a href="../ar-hiro.html?v=8">HIRO backup</a><button id="restart" type="button">Restart AR</button></nav>
+   <details id="diagnostics"><summary>Technical diagnostics</summary><pre id="diagnostic-text">Waiting...</pre></details>
+ </footer></main>
+</body>
+</html>

@@ -1,0 +1,2 @@
+Test-only WebAR V12.2 (do NOT print onto permanent NFC card):
+https://newgentle.github.io/vcard/ar-pages/v12-2/ar.html

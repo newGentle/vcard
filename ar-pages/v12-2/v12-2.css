@@ -1,0 +1,82 @@
+:root{--navy:#031a29;--cyan:#2bf3f5;--peach:#ffab92;--white:#e9fdff;--muted:#a8d5dc;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;margin:0;padding:0}
+html.ar,html.ar body{width:100vw!important;height:100dvh!important;min-width:0!important;max-width:100vw!important;max-height:100dvh!important;overflow:hidden!important;position:fixed!important;inset:0!important;background:#02151e!important}
+html.ar body video:not(#mirror){position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;object-fit:cover!important;display:block!important;opacity:1!important;z-index:1!important;pointer-events:none!important;transform:none!important}
+html.ar.video-ready body video:not(#mirror){opacity:0!important}
+#mirror{position:fixed;inset:0;width:100vw;height:100dvh;object-fit:cover;z-index:2;pointer-events:none}
+#scene{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;max-height:100dvh!important;background:transparent!important;z-index:3!important;pointer-events:none!important}
+#scene .a-canvas{background:transparent!important;width:100%!important;height:100%!important}
+.a-enter-vr{display:none!important}
+/* Projected DOM surfaces. Unlike a screen-facing overlay, every surface has its own
+   four point pose projection and its own depth above the AA marker. */
+#hologram{position:fixed;inset:0;width:100vw;height:100dvh;z-index:7;pointer-events:none;visibility:hidden;overflow:visible;transform:none!important}
+#hologram.tracked{visibility:visible}
+.projected-plane{position:absolute;left:0;top:0;width:512px;height:512px;transform-origin:0 0;will-change:transform;pointer-events:none;backface-visibility:visible;overflow:visible;color:var(--white)}
+/* Base: visible only as lines. The center is intentionally 100% transparent. */
+.plane-floor .reticle-corner{position:absolute;width:64px;height:64px;filter:drop-shadow(0 0 12px #29e5ecbb);border-color:#54f4f5;border-style:solid}
+.reticle-corner.tl{left:0;top:0;border-width:10px 0 0 10px;border-radius:12px 0 0 0}
+.reticle-corner.tr{right:0;top:0;border-width:10px 10px 0 0;border-color:#ffa893;border-radius:0 12px 0 0}
+.reticle-corner.bl{left:0;bottom:0;border-width:0 0 10px 10px;border-radius:0 0 0 12px}
+.reticle-corner.br{right:0;bottom:0;border-width:0 10px 10px 0;border-color:#ffa893;border-radius:0 0 12px 0}
+.floor-beam{position:absolute;left:72px;right:72px;top:12px;height:2px;background:linear-gradient(90deg,transparent,#1debec99,transparent)}
+.floor-beam.bottom{top:auto;bottom:12px}
+.floor-dot{position:absolute;background:#47fbeb;width:10px;height:10px;border-radius:50%;box-shadow:0 0 20px #2ffae8}
+.floor-dot.a{left:50px;top:115px}.floor-dot.b{right:70px;bottom:110px;background:#ffb699;box-shadow:0 0 18px #ffb699}
+/* Mid-height translucent strips for separation. No solid card backing. */
+.glass-hairline{position:absolute;left:33px;right:33px;top:401px;height:2px;background:linear-gradient(90deg,transparent,#38dceabb,#f0a58abb,transparent)}
+.layer-heading .kicker{position:absolute;left:42px;top:42px;font-size:21px;font-weight:900;letter-spacing:3px;color:#8df6f6;text-shadow:0 2px 7px #00181c,0 0 12px #013e50}
+.layer-heading .eyebrow{position:absolute;left:43px;top:251px;font-size:19px;letter-spacing:2.7px;font-weight:850;color:#8bffff;text-shadow:0 2px 9px #001522}
+.layer-heading .full-name{position:absolute;left:37px;top:280px;font-size:43px;line-height:1.03;letter-spacing:-1.8px;font-weight:950;color:#fff;filter:drop-shadow(0 4px 6px #00121c);-webkit-text-stroke:.55px #c3ffff}
+.layer-heading .job{position:absolute;left:43px;top:369px;font-size:18px;font-weight:850;letter-spacing:.15px;color:#53eaf3;text-shadow:0 2px 5px #001522}
+.layer-heading .descriptor{position:absolute;left:43px;top:393px;font-size:14px;font-weight:650;color:#f4faff;text-shadow:0 2px 5px #001522}
+/* Photo: original verified Github portrait is a single opaque image, no fake person.
+   Only its small portrait rectangle is opaque; the rest of the hologram is clear. */
+.photo-ring{position:absolute;left:296px;top:111px;width:177px;height:238px;padding:4px;border:2px solid #58e9ee;background:linear-gradient(140deg,#23d9e6b8,#f3a28fbd);border-radius:17px;box-shadow:0 0 18px #13a6bd70,0 7px 26px #00121f9e;transform:rotate(1deg)}
+.photo-ring img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 14%;border-radius:11px;background:#092a37}
+.photo-placeholder{display:none;width:100%;height:100%;place-items:center;font-size:66px;font-weight:900;background:#073744;color:#69e9ee}
+.photo-ring:after{content:'LIVE PROFILE';position:absolute;bottom:11px;left:11px;font-size:10px;font-weight:900;letter-spacing:1.3px;background:#002635ba;padding:5px 6px;border-radius:4px;color:#d8ffff}
+/* Brand hologram: logo floats above the typography. */
+.layer-logo .aa-ribbon{position:absolute;top:92px;left:43px;width:248px;height:162px;object-fit:contain;filter:drop-shadow(0 5px 12px #008daa77)}
+.layer-top .tech-halo{position:absolute;left:226px;top:92px;width:30px;height:30px;border:3px solid #f7b398;border-radius:50%;box-shadow:0 0 22px #f7b398;opacity:.8}
+.layer-top .tech-metric{position:absolute;bottom:40px;left:44px;display:flex;gap:9px;align-items:center;font-size:16px;font-weight:800;color:#c8ffff;letter-spacing:.3px;text-shadow:0 2px 5px #011d2d}
+.layer-top .tech-metric b{color:#62f9f2;font-size:24px}
+.layer-top .tech-metric em{color:#ffbbaa;font-style:normal;margin-left:7px}
+/* Real contact actions stay fixed on phone, not on a tilted, tiny square. */
+#hud{position:fixed;inset:0;z-index:20;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;color:#ecffff}
+#hud :is(a,button,summary){pointer-events:auto}
+.hud-top{padding:max(14px,env(safe-area-inset-top)) 12px 9px;background:linear-gradient(#041a2bec,transparent);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.title{font-size:13px;font-weight:850;letter-spacing:1.7px;white-space:nowrap;text-shadow:0 2px 6px #001119}
+.title b{color:var(--cyan)}.title small{color:var(--peach);letter-spacing:.5px;font-size:12px}.alive{display:inline-block;width:8px;height:8px;background:#4affb6;border-radius:50%;box-shadow:0 0 8px #4affb6;margin-right:7px}
+.top-actions{display:flex;gap:7px}
+a,button{font:inherit;cursor:pointer;color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.top-actions a{padding:10px 12px;border:1px solid #297d8a;border-radius:10px;background:#062e39cf;font-size:12px;font-weight:850;white-space:nowrap}
+.hud-bottom{padding:17px 12px max(14px,env(safe-area-inset-bottom));background:linear-gradient(transparent,#001b2bf0 16%);display:grid;gap:8px}
+.status{border:1px solid #326978;background:#062b35e6;color:#b7ffff;font-size:12px;line-height:1.4;text-align:center;max-width:550px;width:100%;margin:auto;padding:10px 12px;border-radius:13px}
+.contact-actions{max-width:560px;width:100%;margin:auto;display:grid;gap:7px;grid-template-columns:repeat(4,minmax(0,1fr))}
+.contact-actions :is(a,button){font-size:clamp(10px,2.5vw,13px);font-weight:850;text-align:center;border-radius:11px;background:#083448e7;border:1px solid #327e8e;min-height:44px;padding:8px 5px;line-height:1.12}
+.contact-actions .primary{border:0;background:linear-gradient(110deg,#14d9dc,#54e8c2);color:#003348}
+.links{display:flex;gap:14px;align-items:center;justify-content:center;font-size:10px;color:#b5d7e0;flex-wrap:wrap}.links a{text-decoration:underline;text-underline-offset:2px}.links button{background:transparent;border:0;text-decoration:underline;padding:0}
+#diagnostics{background:#052633d3;border:1px solid #317783;max-width:560px;width:100%;margin:auto;padding:7px 11px;border-radius:9px;font-size:10px}
+#diagnostics summary{font-weight:800;cursor:pointer}#diagnostics pre{white-space:pre-wrap;overflow:auto;max-height:180px;font-size:10px;line-height:1.5}
+@media(max-width:365px){.contact-actions{grid-template-columns:repeat(2,minmax(0,1fr))}.hud-bottom{padding-inline:9px}.hud-top{padding-inline:7px}.title{font-size:11px;letter-spacing:.8px}.top-actions a{padding:8px 9px}}
+@media(orientation:landscape) and (max-height:500px){.hud-top{padding:4px 12px}.hud-bottom{gap:4px;padding:4px 11px}.status{padding:4px 10px;min-height:24px}.contact-actions :is(a,button){min-height:28px;padding:5px}.links{display:none}#diagnostics:not([open]){display:none}}
+/* Only small local text shields, not a full opaque card. This preserves a
+   mostly transparent composition against the inked AA marker underneath. */
+.layer-heading .full-name{padding:4px 8px 7px 6px;max-width:269px;background:linear-gradient(95deg,#031621cf 0%,#052332b3 70%,#05233200 100%);border-left:3px solid #38dfe5;border-radius:3px 12px 12px 3px;font-size:40px;line-height:1.08}
+.layer-heading .job{top:370px;background:#051d2aa8;max-width:270px;padding:2px 4px;border-radius:4px}
+.layer-heading .descriptor{top:399px;background:#05232aab;max-width:265px;padding:3px 4px;border-radius:4px}
+/* Four small projected support rays convey the vertical separation between
+   the physical printed square and the top hologram plane. */
+#depth-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+#depth-lines line{stroke:#35f4e7;stroke-width:2;opacity:.62;filter:drop-shadow(0 0 4px #2fe3ed);stroke-linecap:round}
+#depth-lines line:nth-child(2),#depth-lines line:nth-child(4){stroke:#ffb297}
+
+/* V12.2 geometric calibration: compact, never obstructs the marker. */
+.geo-controls{display:flex;gap:7px;align-items:center;justify-content:center;max-width:560px;margin:0 auto;color:#75cfd5;font-size:10px}
+.geo-controls span{flex:1;min-width:0;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;letter-spacing:.01em}
+.geo-controls button{min-width:0;flex-shrink:0;padding:6px 9px;border:1px solid #2d7b89;background:#063744eb;color:#e7fdff;font-size:10px;font-weight:760;border-radius:8px;white-space:nowrap}
+@media(max-width:380px){.geo-controls{gap:4px}.geo-controls span{display:none}.geo-controls button{flex:1}}
+
+@media(max-width:430px){.geo-controls{gap:5px}.geo-controls span{display:none}.geo-controls button{flex:1;padding:6px 4px;font-size:10px}}

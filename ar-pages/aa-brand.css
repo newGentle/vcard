@@ -1,0 +1,24 @@
+/* AA brand overlay overrides; V8 AR tracking and video geometry are intentionally preserved. */
+.aa-monogram{font-size:33px;letter-spacing:-.1em;background:linear-gradient(145deg,#13545c,#072a34)}
+.aa-summary{max-width:420px;margin:0 auto 14px;line-height:1.65;color:#c4f2e6;font-size:14px}
+.aa-feature{margin:26px 0;padding:20px;border:1px solid #39766e;border-radius:20px;background:#0a3036}
+.aa-feature span{color:#83ecd5;font-size:10px;letter-spacing:.15em;font-weight:800}
+.aa-feature h2{font-size:20px;line-height:1.25;margin:11px 0;color:#e9fff9}.aa-feature p{font-size:13px;line-height:1.6;color:#b7d3d1}
+/* Longer surname is never allowed to overflow the AR face. */
+html.ar-page .card-monogram{font-size:23px;letter-spacing:-.08em}
+html.ar-page .card-person h1{font-size:clamp(17px,4.3vw,23px);line-height:1.08;letter-spacing:-.035em;overflow-wrap:anywhere}
+html.ar-page .card-person-info p{font-size:11px}
+html.ar-page .card-tagline{font-size:10.5px}
+html.ar-page .card-controls .card-secondary{font-size:12px}
+/* Avoid duplicate bottom buttons when marker overlay with its own actions is visible. */
+html.ar-page #ar-overlay.is-visible ~ #hud .hud-actions{display:none!important}
+.aa-cv-page{margin:0;background:#eef4f2;color:#112f38;font:16px system-ui,-apple-system,sans-serif}
+.cv-bar{position:sticky;top:0;background:#082e34;color:#fff;padding:13px max(20px,calc((100vw - 850px)/2));display:flex;justify-content:space-between;gap:15px;z-index:10}
+.cv-bar a{color:#abffdf;text-decoration:none;font-size:13px;font-weight:700}
+.cv-layout{max-width:850px;margin:35px auto;background:#fff;padding:clamp(22px,5vw,50px);border:1px solid #ccddda;box-shadow:0 12px 38px #15483718;border-radius:15px}
+.cv-kicker{font-weight:850;font-size:11px;letter-spacing:.16em;color:#157b6e}.cv-layout h1{font-size:clamp(29px,6vw,40px);margin:8px 0 3px;letter-spacing:-.04em;color:#092d34}
+.cv-role{margin:0;color:#0c766d;font-weight:750;font-size:14px}.cv-contact{display:flex;flex-wrap:wrap;gap:11px;margin:20px 0 26px;border-bottom:1px solid #c7dfd7;padding-bottom:18px}.cv-contact a{color:#0b695d;font-weight:650;font-size:12px}
+.cv-layout section{margin-top:23px}.cv-layout h2{font-size:14px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 9px;padding-bottom:7px;border-bottom:1px solid #d0e4db;color:#0e766d}
+.cv-layout p,.cv-layout li{font-size:14px;line-height:1.65;color:#23444b}.cv-layout ul{padding-left:20px}.cv-layout li{margin:6px 0}.cv-layout article{margin:15px 0}.cv-layout h3{font-size:15px;margin:0;color:#12323b}.cv-layout h3 small{display:inline;font-size:12px;font-weight:500;color:#67817e}.cv-org{font-size:12px!important;color:#188072!important;margin:1px 0}
+.cv-layout article p{margin:5px 0}.cv-skills p{margin:7px 0}.cv-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}.cv-cta a{background:#0b605a;color:#fff;border-radius:10px;text-decoration:none;padding:12px 17px;font-weight:750}
+@media(max-width:700px){.cv-layout{margin:0;border:0;border-radius:0}.cv-bar{padding:12px 15px}}

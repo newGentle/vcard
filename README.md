@@ -1,11 +1,11 @@
-# A-Frame Project
+# NFC AR VisitCard — GitHub Pages demo
 
-**[Subscribe to the A-Frame newsletter!](https://aframe.io/subscribe/)**
+Static public demo, no backend, passwords or private contact data.
 
-**[Sponsor us to help support A-Frame development and its community](https://github.com/sponsors/dmarcos)**
+Files: `index.html` (digital card plus AR.js Hiro tracking) and `print.html` (marker to print).
 
-Built with [A-Frame](https://aframe.io), a web framework for building virtual reality experiences.
+Publish using **GitHub repository Settings → Pages → Deploy from a branch → main / root**, or upload into an already Pages-enabled repo.
 
-Make WebVR with HTML and Entity-Component. Works on Vive, Rift, Quest, desktop, mobile platforms.
+Browser requirements: HTTPS, camera permission, access to A-Frame / AR.js CDNs, print the HIRO marker. GitHub Pages supports multiple project sites in different public repositories.
 
-Click and drag on desktop. Open it on a smartphone and use the device motion sensors. Or [plug in a VR headset](https://aframe.io/docs/0.8.0/introduction/vr-headsets-and-webvr-browsers.html)!
+This demo deliberately does not connect to the private FastAPI instance or import its `.env`.

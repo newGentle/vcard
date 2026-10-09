@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru" class="ar-page">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#061a20">
+  <title>WebAR V6 | AR VisitCard</title>
+  <link rel="stylesheet" href="style.css?v=6">
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.8/aframe/build/aframe-ar.js"></script>
+  <script>
+    if (window.AFRAME && !window.AFRAME.systems.arjs) {
+      document.write('<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.8/aframe/build/aframe-ar.js"><' + '/script>');
+    }
+  </script>
+  <script defer src="ar-ui.js?v=6"></script>
+</head>
+<body>
+  <!-- The image is deliberately next to ar.html, matching the published GitHub repo.
+       Use regular IMG loading so a missing file cannot block A-Frame initialization. -->
+  <img id="card-image" src="ar-card.png?v=6" crossorigin="anonymous" alt="" hidden>
+  <a-scene id="scene" embedded vr-mode-ui="enabled: false"
+    device-orientation-permission-ui="enabled: false"
+    renderer="alpha: true; antialias: true; precision: medium"
+    arjs="sourceType: webcam; detectionMode: mono; debugUIEnabled: false; sourceWidth: 640; sourceHeight: 480;">
+    <a-marker id="hiro-marker" preset="hiro" emitevents="true"
+      smooth="true" smooth-count="5" smooth-tolerance="0.01" smooth-threshold="2">
+      <!-- AR.js marker surface is XZ. Tilt the face so its front points toward the camera. -->
+      <a-plane id="profile-card" position="0 0.26 -0.04" rotation="-72 0 0"
+        width="1.76" height="1.13"
+        material="shader: flat; color: #123e47; side: double"
+        animation="property: position; to: 0 0.31 -0.04; dir: alternate; dur: 2500; loop: true; easing: easeInOutSine">
+        <!-- Readable emergency fallback if the PNG or WebGL texture fails. -->
+        <a-text id="texture-fallback" value="AKBAR | VISITCARD" align="center"
+          width="2.2" color="#a9ffe4" position="0 0.13 0.018"></a-text>
+        <a-text id="texture-fallback-sub" value="HEAD OF IT"
+          align="center" width="1.6" color="#ffffff" position="0 -0.16 0.018"></a-text>
+      </a-plane>
+    </a-marker>
+    <a-entity camera></a-entity>
+  </a-scene>
+  <!-- Marker-linked buttons appear only when their projected spacing is safe. -->
+  <div id="marker-hotspots" hidden aria-label="Интерактивные кнопки над AR-визиткой">
+    <button id="hot-save" type="button" class="ar-hotspot">Сохранить</button>
+    <a id="hot-profile" class="ar-hotspot" href="index.html?v=6">Профиль</a>
+    <button id="hot-share" type="button" class="ar-hotspot">Поделиться</button>
+  </div>
+  <div id="hud" aria-live="polite">
+    <header class="hud-top">
+      <span class="hud-title">✦ LIVE WEBAR · V6</span>
+      <a class="exit" href="index.html?v=6">Закрыть ×</a>
+    </header>
+    <footer class="hud-bottom">
+      <div class="status" id="status">Запуск камеры и распознавания маркера…</div>
+      <div id="actions" class="hud-actions">
+        <button type="button" class="save-action">Сохранить контакт</button>
+        <a href="index.html?v=6">Моя визитка</a>
+        <button type="button" class="share-action">Поделиться</button>
+      </div>
+      <div class="understatus">
+        <a href="camera-test.html?v=6">Тест камеры</a>
+        <a href="print.html?v=6">HIRO-маркер</a>
+        <button type="button" id="retry-ar">Перезапустить AR</button>
+      </div>
+      <details id="diagnostics"><summary>Техническая диагностика</summary><pre id="diag-output">Инициализация…</pre></details>
+    </footer>
+  </div>
+</body>
+</html>
